@@ -12,4 +12,8 @@ router.get("/", authMiddleware(["admin"]), orderController.getAllOrders);
 // Admin updates order status
 router.put("/:id/status", authMiddleware(["admin"]), orderController.updateOrderStatus);
 
+// Admin filtered view
+router.get("/filter", authMiddleware(["admin"]), orderController.getFilteredOrders);
+
+
 module.exports = router;

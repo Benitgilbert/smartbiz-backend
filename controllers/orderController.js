@@ -32,14 +32,52 @@ exports.getAllOrders = async (req, res) => {
 // Update order status (admin only)
 exports.updateOrderStatus = async (req, res) => {
   try {
+    const allowedStatuses = [
+      "pending",
+      "approved",
+      "in-production",
+      "ready",
+      "delivered",
+      "cancelled",
+    ];
+
+    const newStatus = req.body.status;
+
+    if (!allowedStatuses.includes(newStatus)) {
+      return res.status(400).json({ message: "Invalid status value" });
+    }
+
     const order = await Order.findByIdAndUpdate(
       req.params.id,
-      { status: req.body.status },
+      { status: newStatus },
       { new: true }
     );
-    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
     res.json(order);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+
+// Filtered order view (admin only)
+exports.getFilteredOrders = async (req, res) => {
+  try {
+    const query = {};
+    if (req.query.status) query.status = req.query.status;
+    if (req.query.customer) query.customer = req.query.customer;
+    if (req.query.product) query.product = req.query.product;
+
+    const orders = await Order.find(query)
+      .populate("product", "name price")
+      .populate("customer", "name email");
+
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
