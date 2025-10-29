@@ -81,3 +81,62 @@ exports.getFilteredOrders = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+//analytics
+
+exports.getOrderAnalytics = async (req, res) => {
+  try {
+    const totalOrders = await Order.countDocuments();
+
+    const statusCounts = await Order.aggregate([
+      { $group: { _id: "$status", count: { $sum: 1 } } }
+    ]);
+
+    const productCounts = await Order.aggregate([
+      { $group: { _id: "$product", count: { $sum: 1 } } },
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "_id",
+          as: "product"
+        }
+      },
+      { $unwind: "$product" },
+      {
+        $project: {
+          _id: 0,
+          productName: "$product.name",
+          count: 1
+        }
+      }
+    ]);
+
+    const customizationStats = await Order.aggregate([
+      {
+        $group: {
+          _id: null,
+          usedCustomText: {
+            $sum: { $cond: [{ $ifNull: ["$customText", false] }, 1, 0] }
+          },
+          usedCustomFile: {
+            $sum: { $cond: [{ $ifNull: ["$customFile", false] }, 1, 0] }
+          },
+          usedCloudLink: {
+            $sum: { $cond: [{ $ifNull: ["$cloudLink", false] }, 1, 0] }
+          }
+        }
+      }
+    ]);
+
+    res.json({
+      totalOrders,
+      statusCounts,
+      productCounts,
+      customizationStats: customizationStats[0]
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
