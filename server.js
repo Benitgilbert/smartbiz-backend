@@ -12,7 +12,16 @@ app.use(express.json());
    
    //connect routes to server
 const authRoutes = require("./routes/authRoutes");
+const productRoutes = require("./routes/productRoutes");
+const customizationRoutes = require("./routes/customizationRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+
+
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/customizations", customizationRoutes);
+app.use("/api/orders", orderRoutes);
+
 
 // Test route
 app.get("/", (req, res) => {
