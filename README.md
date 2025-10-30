@@ -32,7 +32,9 @@ SmartBiz is a secure, scalable e-commerce backend built with Node.js, Express, a
 
 
 
-📦 Installation
+## 📦 Installation
+
+```bash
 git clone https://github.com/Benitgilbert/smartbiz-backend.git
 cd smartbiz-backend
 npm install
@@ -40,7 +42,7 @@ npm run dev
 
 
 
-📁 Project Structure
+
 smartbiz-backend/
 ├── controllers/         # Auth & order logic
 │   ├── authController.js
@@ -67,8 +69,7 @@ smartbiz-backend/
 ├── assets/              # Branding assets
 │   └── logo.png
 ├── server.js            # Entry point
-└── .env                 # Environment variables
-
+└── .env                 # Environment variables     
 
 
 🔐 Environment Variables
