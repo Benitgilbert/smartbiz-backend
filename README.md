@@ -16,15 +16,19 @@ SmartBiz is a secure, scalable e-commerce backend built with Node.js, Express, a
 - 🌍 Deployment Ready for platforms like Render, Railway, or VPS
 
 🧱 Tech Stack
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
+| Layer           | Tools & Libraries                      |
+|-----------------|----------------------------------------|
+| Backend         | Node.js, Express                       |
+| Database        | MongoDB, Mongoose                      |
+| Authentication  | JWT, bcrypt                            |
+| Reporting       | PDFKit, CSV Exporters                  |
+| Email           | Nodemailer                             |
+| Scheduling      | node-cron                              |
+| Security        | express-rate-limit, OTP-based 2FA      |
+| Dev Tools       | Nodemon, dotenv                        |
+| Version Control | Git & GitHub                           |
+
+
 
 
 
